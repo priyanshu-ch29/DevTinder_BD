@@ -1,6 +1,6 @@
 const authRouter = require("express").Router()
 const User = require('../models/user');
-const validateSignUp = require('../utils/validation');
+const { validateSignUp } = require("../utils/validation");
 
 authRouter.post("/signup", async (req, res) => {
     const { firstName, lastName, email, password, age, gender, location, skills, bio, photo } = req.body;
