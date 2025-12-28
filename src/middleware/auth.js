@@ -23,6 +23,19 @@ const userAuth = async (req, res, next) => {
 }
 
 
+const errorHandler = (err, req, res, next) => {
+    console.error(err);
+    const statusCode = err.statusCode || 500;
+    console.log(err.message)
+    res.status(statusCode).json({
+        success: false,
+        message: err.message || "Something went wrong",
+    });
+};
+
+
+
 module.exports = {
-    userAuth
+    userAuth,
+    errorHandler
 }

@@ -3,7 +3,7 @@ const { userAuth } = require("../middleware/auth")
 const ConnectionRequest = require('../models/connectionRequest')
 const User = require("../models/user")
 
-requestRouter.post("/send/:status/:toUserId", userAuth, async (req, res) => {
+requestRouter.post("/send/:status/:toUserId", userAuth, async (req, res, next) => {
     try {
         const fromUserId = req.user._id
         const toUserId = req.params.toUserId
@@ -52,14 +52,11 @@ requestRouter.post("/send/:status/:toUserId", userAuth, async (req, res) => {
             data: data
         })
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Something went wrong " + error.message
-        })
+        next(error)
     }
 })
 
-requestRouter.post("/review/:status/:requestId", userAuth, async (req, res) => {
+requestRouter.post("/review/:status/:requestId", userAuth, async (req, res, next) => {
     try {
         const loggedInUser = req.user
         const status = req.params.status
@@ -95,10 +92,7 @@ requestRouter.post("/review/:status/:requestId", userAuth, async (req, res) => {
 
 
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Something went wrong " + error.message
-        })
+        next(error)
     }
 })
 

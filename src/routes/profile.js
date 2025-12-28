@@ -5,7 +5,7 @@ const { validateEditProfileData } = require('../utils/validation')
 const bcrypt = require("bcrypt")
 const validator = require("validator")
 
-profileRouter.get("/view", userAuth, async (req, res) => {
+profileRouter.get("/view", userAuth, async (req, res, next) => {
     try {
         const user = req.user
         res.status(200).json({
@@ -14,15 +14,11 @@ profileRouter.get("/view", userAuth, async (req, res) => {
             user: user
         })
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "User profile fetching failed",
-            error: error.message
-        })
+        next(error)
     }
 })
 
-profileRouter.patch("/edit", userAuth, async (req, res) => {
+profileRouter.patch("/edit", userAuth, async (req, res, next) => {
     try {
         if (!validateEditProfileData(req.body)) {
             throw new Error("Invalid profile data")
@@ -36,15 +32,11 @@ profileRouter.patch("/edit", userAuth, async (req, res) => {
             data: loggedInUser
         })
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "User profile edit failed",
-            error: error.message
-        })
+        next(error)
     }
 })
 
-profileRouter.patch("/password", userAuth, async (req, res) => {
+profileRouter.patch("/password", userAuth, async (req, res, next) => {
     try {
         const loggedInUser = req.user
         const newPassword = req.body.password
@@ -76,11 +68,7 @@ profileRouter.patch("/password", userAuth, async (req, res) => {
             message: "Password Changed Successfully!!"
         })
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Something went wrong",
-            error: error.message
-        })
+        next(error)
     }
 })
 

@@ -2,7 +2,7 @@ const authRouter = require("express").Router()
 const User = require('../models/user');
 const { validateSignUp } = require("../utils/validation");
 
-authRouter.post("/signup", async (req, res) => {
+authRouter.post("/signup", async (req, res, next) => {
     const { firstName, lastName, email, password, age, gender, location, skills, bio, photo } = req.body;
     try {
         validateSignUp(req)
@@ -17,16 +17,11 @@ authRouter.post("/signup", async (req, res) => {
             })
         }
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            success: false,
-            message: "User creation failed",
-            error: error.message
-        })
+        next(error)
     }
 })
 
-authRouter.post("/login", async (req, res) => {
+authRouter.post("/login", async (req, res, next) => {
     const { email, password } = req.body;
     try {
         const user = await User.findOne({ email });
@@ -55,11 +50,7 @@ authRouter.post("/login", async (req, res) => {
             })
         }
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "User login failed",
-            error: error.message
-        })
+        next(error)
     }
 })
 
