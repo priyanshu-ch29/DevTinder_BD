@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     },
     location: { type: String, required: false },
     photo: {
-        type: String, required: false, default: "https://pixabay.com/images/search/user%20icon/", validate(value) {
+        type: String, required: false, default: "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png", validate(value) {
             if (value && !validator.isURL(value)) {
                 throw new Error("Invalid photo URL")
             }
