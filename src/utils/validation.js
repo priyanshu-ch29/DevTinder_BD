@@ -16,9 +16,7 @@ const validateSignUp = (req) => {
 const validateEditProfileData = (req) => {
     const allowedFields = ["firstName", "lastName", "email", "age", "gender", "location", "photo", "bio", "skills"]
     const { firstName, lastName, email, password, age, gender, location, skills, bio, photo } = req
-    if (skills.length > 10) {
-        throw new Error("Skills array should not be greater than 10");
-    } else if (photo && !validator.isURL(photo)) {
+    if (photo && !validator.isURL(photo)) {
         throw new Error("Invalid Photo URL!")
     }
     const isAllowedUpdate = Object.keys(req).every(field => allowedFields.includes(field))

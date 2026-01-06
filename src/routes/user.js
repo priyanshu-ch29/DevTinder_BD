@@ -30,7 +30,7 @@ userRouter.get("/view/connection", userAuth, async (req, res, next) => {
                 { toUserId: loggedInUser._id, status: "accepted" },
                 { fromUserId: loggedInUser._id, status: "accepted" }
             ]
-        }).populate("fromUserId", "firstName lastName age gender skills bio").populate("toUserId", "firstName lastName age gender skills bio")
+        }).populate("fromUserId", "firstName lastName age gender skills bio photo").populate("toUserId", "firstName lastName age gender skills bio photo")
         const data = connectionRequest.map(row => {
             if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
                 return row.toUserId
