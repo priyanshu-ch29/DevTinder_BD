@@ -2,9 +2,7 @@ const validator = require("validator");
 // API LEVEL VALIDATION
 const validateSignUp = (req) => {
     const { firstName, lastName, email, password, age, gender, location, skills, bio, photo } = req.body;
-    if (skills.length > 10) {
-        throw new Error("Skills array should not be greater than 10");
-    } else if (!firstName) {
+    if (!firstName) {
         throw new Error("First name is required");
     } else if (!validator.isEmail(email)) {
         throw new Error("Invalid email");

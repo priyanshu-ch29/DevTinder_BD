@@ -8,12 +8,17 @@ authRouter.post("/signup", async (req, res, next) => {
         validateSignUp(req)
         const user = new User({ firstName, lastName, email, password, age, gender, location, skills, bio, photo });
         await user.hashPassword()
-        await user.save();
+        const savedUser = await user.save();
+        const token = await savedUser.issueJWT()
+        console.log(token)
+        res.cookie("token", token, {
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        })
         if (user) {
             res.status(200).json({
                 success: true,
                 message: "User created successfully",
-                user: user
+                user: savedUser
             })
         }
     } catch (error) {
